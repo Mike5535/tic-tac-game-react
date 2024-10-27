@@ -1,25 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import { TicTacCell } from './shared'
+import { useTicTac } from './hook.ts'
 
 function App() {
+  const {
+    cells,
+    winer,
+    lastSlected,
+    restart,
+    cellListener
+  } = useTicTac()
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='tic-tac__wrapper'>
+      <div className='tic-tac__title'>
+        Turn: { lastSlected === 'x'? 'o': 'x' }
+
+        <button onClick={restart}> Restart </button>
+      </div>
+
+      <div className='tic-tac'>
+        { Object.values(cells).map(
+          (cellContent, key) => 
+          (<TicTacCell 
+            key={key}
+            onMouseDown={() => cellListener(key)}
+          > 
+            { cellContent }
+          </TicTacCell>)) 
+        }
+
+        {
+          winer &&
+          <div className='tic-tac__winer'> Winer: { winer }! </div>
+        }
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
